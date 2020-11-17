@@ -1,0 +1,66 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+    <head>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            // 장고에서 받은 chart를 json처리
+            var jsonData = {{chart|safe}};
+            console.log(chart)
+            //var jsonData = JSON.parse(chart);
+            //console.log(jsonData)
+
+            console.log(jsonData.length);
+
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Category');
+            data.addColumn('number', 'Count');
+            var arr = [];
+            for (var key in jsonData) {
+                console.log(key)
+                arr = [key, jsonData[key]];
+                data.addRow(arr); // 배열 형태로 
+            }
+            //var data = google.visualization.arrayToDataTable(chart_data);
+            var options = {
+            //title: 'Category Ratio',
+            fontSize: 17,
+            chartArea:{left:500,top:60,width:'70%',height:'75%'}
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+        </script>
+    </head>
+
+    <div id="piechart" style="width: 1100px; height: 500px;"></div>
+    <table id = "chart_table" border="0" >
+        <tr>
+            <th class="line" align="center" width="150">카테고리</th>
+            <th class="line" align="center" width="50">횟수</th>
+            <!-- <th class="line" align="center" width="80">비율</th> -->
+        </tr>
+        {% for daily in dailys %}
+        <tr>
+            <td class="line" align="center">{{ daily.category }}</td>
+            <td class="line" align="center">{{ daily.count }}회</td>
+            <!-- <td class="line" align="center">
+                {% widthratio daily.count|mul:"100" count_all 100 as ratio %}
+                {{ ratio |mul:"0.01"|floatformat:2 }}%
+                 floatformat: 2 
+            </td> -->
+        </tr>
+
+
+        {% endfor %}
+        {{data}}
+    {% endblock %}

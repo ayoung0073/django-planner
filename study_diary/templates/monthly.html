@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Calendar with Vanilla Javascript</title>
+  <!--스타일링 추가-->
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: 100%;
+      margin: 0;
+      position: relative;
+    }
+
+    #calendar {
+      height: 99%;
+      box-sizing: border-box;
+      padding-right: 5%;
+      padding-left: 5%;
+    }
+
+    .calendar__day {
+      display: inline-block;
+      vertical-align: bottom;
+      width: calc(97% / 7);
+      height: calc(98% / 5);
+      box-sizing: border-box;
+      border-radius: 5px;
+      padding: 20px;
+    }
+
+    .horizontalGutter {
+      margin-right: 0.5%;
+    }
+
+    .verticalGutter {
+      margin-top: 0.5%;
+    }
+
+    .calendar__day{
+      border: solid 1px;
+    }
+
+    #month_val{
+      border: solid 1px;
+      display: table;
+      font-weight: bold;
+      font-size: 40px;
+      text-align: center;
+      margin-left: 50%;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+
+
+    }
+  </style>
+</head>
+
+<body>
+  <br>
+  <span id="monthly_select" style="float: right;">
+    <select name="month">
+        <option value="1" onclick="location.href='Moon_PLAN.jsp?year=2020&month=1'">1 JANUARY</option>
+        <option value="2" onclick="location.href='Moon_PLAN.jsp?year=2020&month=2'">2 FEBRUARY</option>
+        <option value="3" onclick="location.href='Moon_PLAN.jsp?year=2020&month=3'">3 MARCH</option>
+        <option value="4" onclick="location.href='Moon_PLAN.jsp?year=2020&month=4'">4 APRIL</option>
+        <option value="5" onclick="location.href='Moon_PLAN.jsp?year=2020&month=5'">5 MAY</option>
+        <option value="6" onclick="location.href='Moon_PLAN.jsp?year=2020&month=6'">6 JUNE</option>
+        <option value="7" onclick="location.href='Moon_PLAN.jsp?year=2020&month=7'">7 JULY</option>
+        <option value="8" onclick="location.href='Moon_PLAN.jsp?year=2020&month=8'">8 AUGUST</option>
+        <option value="9" onclick="location.href='Moon_PLAN.jsp?year=2020&month=9'">9 SEPTEMBER</option>
+        <option value="10" onclick="location.href='Moon_PLAN.jsp?year=2020&month=10'">10 OCTOBER</option>
+        <option value="11" onclick="location.href='Moon_PLAN.jsp?year=2020&month=11'">11 NOVEMBER</option>
+        <option value="12" onclick="location.href='Moon_PLAN.jsp?year=2020&month=12'">12 DECEMBER</option>
+    </select>
+  </span>
+  <script>
+    const today = new Date();
+    document.write("<span id='month_val'>"+(today.getMonth()+1)+"월</span>");
+  </script>
+  <!-- <div  id="add_planBT" align="right">
+    <button onclick="popup()">일정 추가</button>
+  </div> -->
+
+  <br><br>
+  {% csrf_token %}
+  <div id="calendar"></div>
+    <script>
+
+    const setCalendarData = (year, month) => {
+      let calHtml = "";
+      const setDate = new Date(year, month - 1, 1);
+      const firstDay = setDate.getDate();
+      const firstDayName = setDate.getDay();
+      const lastDay = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0
+      ).getDate();
+      const prevLastDay = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        0
+      ).getDate();
+      console.log(year);
+
+
+      console.log(today.getMonth()+1);
+
+      let startDayCount = 1;
+      let lastDayCount = 1;
+
+      for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 7; j++) {
+          if (i == 0 && j < firstDayName) {
+            if (j == 0) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter'><span>${(prevLastDay - (firstDayName - 1) + j)}<br></span><span></span></div>`;
+            } else if (j == 6) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day'><span>${(prevLastDay - (firstDayName - 1) + j)}<br></span><span></span></div>`;
+            } else {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter'><span>${(prevLastDay - (firstDayName - 1) + j)}<br></span><span></span></div>`;
+            }
+          }
+          else if (i == 0 && j == firstDayName) {
+            if (j == 0) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            } else if (j == 6) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            } else {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            }
+          }
+          else if (i == 0 && j > firstDayName) {
+            if (j == 0) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            } else if (j == 6) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            } else {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            }
+          }
+          else if (i > 0 && startDayCount <= lastDay) {
+            if (j == 0) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            } else if (j == 6) {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day verticalGutter'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            } else {
+              // 스타일링을 위한 클래스 추가
+              calHtml +=
+                `<div class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}<br></span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></div>`;
+            }
+          }
+          // else if (startDayCount > lastDay) {
+          //   if (j == 0) {
+          //     // 스타일링을 위한 클래스 추가
+          //     calHtml +=
+          //       `<div style='background-color:#B9E1FF;' class='calendar__day horizontalGutter verticalGutter'><span>${lastDayCount++}</span><span></span></div>`;
+          //   } else if (j == 6) {
+          //     // 스타일링을 위한 클래스 추가
+          //     calHtml +=
+          //       `<div style='background-color:#B9E1FF;' class='calendar__day verticalGutter'><span>${lastDayCount++}</span><span></span></div>`;
+          //   } else {
+          //     // 스타일링을 위한 클래스 추가
+          //     calHtml +=
+          //       `<div  class='calendar__day horizontalGutter verticalGutter'><span>${lastDayCount++}</span><span></span></div>`;
+          //   }
+          // }
+        }
+      }
+      document
+        .querySelector("#calendar")
+        .insertAdjacentHTML("beforeend", calHtml);
+    };
+
+    const setFixDayCount = number => {
+      let fixNum = "";
+      if (number < 10) {
+        fixNum = "0" + number;
+      } else {
+        fixNum = number;
+      }
+      return fixNum;
+    };
+
+    if (today.getMonth() + 1 < 10) {
+      setCalendarData(today.getFullYear(), "0" + (today.getMonth() + 1));
+    } else {
+      setCalendarData(today.getFullYear(), "" + (today.getMonth() + 1));
+    }
+  </script>
+  {% for month in data %}
+  <script>$("#{{month.date|date:'yymd'}}").append("<br>{{month.content}}")</script>
+  {% endfor %}
+
+  <script>
+    function popup(monthly_date){ /* 일정추가 버튼을 클릭하면 이 함수 호출 -> 일정 추가 팝업창 뜸 */
+			window.open("monthly_add/"+monthly_date,"일정 추가","width=350,height=150,left=900,top=100");
+   	}
+  </script>
+
+  <script>
+    $(".calendar__day").dblclick(function(){
+
+      if (window.getSelection) // 더블클릭했을 때 block 잡히는 거 방지
+        window.getSelection().removeAllRanges();
+    else if (document.selection)
+        document.selection.empty();
+
+      var id=$(this).find("span[id]").attr('id'); // id가 있는 span 태그의 id를 가져와서 id에 저장
+      // $(this).find("span[id]").append("<form method='POST'>{% csrf_token %} <input type='text' name='content' id='" +  id + "' onChange='javascript:saveValue("+ id +",this.value)' value=''><br><input type='submit' value='수정'></form>");
+      console.log(id);
+      var date = id;
+                  
+      var y = date.substr(0,4);
+      var m = date.substr(4,2);
+      var d = date.substr(6,2);
+
+      date = y + "-" + m + "-" + d;
+      //$("#"+id).append("<form action='{% url 'monthly_add' %}' method='POST'");
+      $("#"+id).append("<br><form action='{% url 'monthly_add' %}' method='POST'>"+'{% csrf_token %}'+" <input type='text' name='date' value='"+ date +"' hidden> <input type='text' name='content' placeholder='내용'><br><input type='submit' value='수정'/></form>");
+
+      console.log(date);
+
+      //$(this).find("span[id]").append("<form action='{% url 'monthly_add' %}' method='POST'>");
+      //$(this).find("span[id]").append('{% csrf_token %}');
+      //$(this).find("span[id]").append("<input type='text' name='date' value='"+ date +"' hidden> <input type='text' name='content' placeholder='내용'><br><input type='submit' value='수정'/></form>");
+      console.log(date);
+
+      // http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=13&seq=206
+      //console.log(id);
+      //popup(id); // 팝업창.. 근데 이제 바꾸자 
+    });
+  </script>
+</body>
+{% endblock %}

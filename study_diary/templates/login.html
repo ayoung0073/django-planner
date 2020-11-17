@@ -1,0 +1,44 @@
+
+<!-- base.html 상속받음 -->
+
+{% block content %}
+<!-- blogMain.html 만의 내용 -->
+<div align="center">
+    <br>당신의 아이디와 비밀번호를 입력해주세요! <br><br>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>ID</td>
+                <td><input type="text" name="id" width="100px"></td>
+            </tr>
+            <tr>
+                <td>PW</td>
+                <td><input type="password" name="password"  width="100px"></td>
+                <td><input type="submit"  value="Login" id='loginButton'></td>
+            </tr>
+        </table>
+    </form>
+    아직 회원이 아니신가요? <a href="{% url 'join' %}">회원가입</a>
+</div>
+{% endblock %}
+<!-- 
+
+$('#loginButton').on('click',function(event){
+
+    var formData = $('#loginForm').serialize();
+    $.ajax({
+        cache : false,
+        url : "{% url 'login' %}" ,
+        type : 'POST',
+        data : formData,
+        success : function(data){
+            var res = data['result']
+            alert(res);
+        },
+        error : function(xhr,status,)
+        {
+            alert("통신 실패");
+        },
+    });
+}); -->

@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+#index_body{
+	width:100%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#main_chart{
+	list-style-type: none;
+}
+
+.banner_menu{
+	margin-right:15px;
+	list-style-type: none;
+	text-align:center;
+}
+
+.pagination-row{
+	margin-top:20px;
+}
+
+.page-item{
+	list-style: none;
+	display: inline-block;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+a{
+	text-decoration: none;
+	color:black;
+}
+
+.line{
+	border-bottom:1px solid lightslategray;
+}
+
+.bg_lightgrey{
+	background-color: lightgrey;
+	margin-left: 850px;
+	margin-right: 350px;
+	width:100px;
+}
+
+#daily_entire{
+	margin-left: 100px;
+}
+
+.daily_table{
+	margin-left:20px;
+	display:block;
+	float:left;
+	width:400px;
+}
+
+.daily_head{
+	background-color:black;
+	color:white;
+}
+
+.daily_edit_btn{
+	
+	color:ivory;
+	background:rosybrown;
+	position:fixed;
+	right:150px;
+	top:200px;
+	
+}
+
+#daily_add_btn{
+	
+	position: fixed;
+	right:800px;
+	/* 235 */
+	top: 180px;
+}
+
+#monthVal{
+	border-color: black;
+	padding-top:20px;
+	padding-bottom:20px;
+	margin-left:650px;
+	margin-right:650px;
+	text-align: center;
+	font-size: 30px;
+	border:black solid 1px;
+	font-weight: bold;
+}
+
+#monthly_select{
+	float: right;
+	margin-top: 20px;
+	margin-right: 30px;
+}
+
+#diary_list{
+	width: 800px;
+	border: 1px solid thin lightslategray;
+}
+
+#table_diary_list{
+	border: 1px solid thin lightslategray;
+}
+
+.diary_title_align{
+	margin-left: 100px;
+}
+
+.diary1{
+	float:left;
+	width:50%;
+	padding-left:80px;
+	
+}
+
+.diary2{
+	/*text-align: center;*/
+	float:right;
+	padding-left:90px;
+	padding-right:40px;
+	margin-right:40px;
+	border-left: double lightgray;
+	margin-left: 0px;
+}
+
+#piechart{
+	float:left;
+	width:500px;
+}
+
+#chart_table{
+	margin-top:60px;
+}

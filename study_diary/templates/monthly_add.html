@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html> <!-- 일정 추가 팝업창 -->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="{% static 'css/study_diary.css' %}" type="text/css">
+		<script type="text/javascript" src="{% static 'js/jquery-3.5.1.js' %}"></script>
+	</head>
+	<body>
+		<form method="POST">
+			{% csrf_token %}
+			<table id="plan_add_table">
+			<tr>
+				<th>날짜</th>
+				<th>
+					<script>
+						// if(!url) url = window.location.href; // url을 입력하지 않을 경우에 아래 함수에서 현재의 url을 가져오는ㅋ ㅗ드
+						var url = window.location.href; // ?sourceid=chrome 등등
+						var date = url.split("add/")[1];
+						console.log(date);
+												
+						var y = date.substr(0,4);
+						var m = date.substr(4,2);
+						var d = date.substr(6,2);
+
+						date = y + "-" + m + "-" + d;
+
+						
+						// var date = new Date(y, m-1, d);
+						// console.log(date);
+						document.write("<input type=\"text\" name=\"date\" value=\""+date+ "\" readonly value=<script>");
+					</script>
+				</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>내용 </th>
+				<td><input type="text" name="content"> </td>
+				<td><input type="submit" value="추가"></td>
+			</tr>
+
+			</table>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+	{% extends 'base.html' %}
+	{% block content%}
+
+		<br>
+		<div  class="diary1" >
+	          <h2 id="diary_title" class="diary" ><b> {{ diary_one.date|date:"yy-m-d" }} 일기</b></h2>
+			  <a href="{% url 'diary_one_update' diary_one.id %}" id="diary_update_button"><button>수정</button></a>
+			  <a href="{% url 'diary_one_delete' diary_one.id %}" id="diary_delete_button"><button>삭제</button></a><br>
+	          <h3>제목: {{ diary_one.title }} <br></h3>
+	          <hr><br>
+	          <div id="selected_content">{{ diary_one.content|safe }}</div>
+	   </div>
+	   <div class="diary2">
+		<span><h3 id="diary_title2">일기목록</h3></span>
+		
+		<table id="table_diary_list" >
+			<tr>
+        		<th class="line" width="50" height="35">NO</th>
+        		<th class="line" width="340">제목</th>
+        		<th class="line" width="120">날짜</th>
+			</tr>
+			{% for diary in diarys %}
+        	<tr>
+        		<td class="line" align="center">{{  forloop.counter }}</td> 
+        		<td  class="line" class="diary_title_align" align="left" height="25" >  <a class="diary_title" href="{% url 'diary_one' diary.id %}">{{ diary.title }}</a></td>
+        		<td class="line" align="center">{{ diary.date|date:'y-m-d'}}</td>       	
+			</tr>
+			{% endfor %}
+		</table>
+
+		<div class="pagination-row" align="center">
+			<div class="paginateon-col">
+				<nav>
+					<ul class="pagination">
+						{% if dailys.has_previous %}                         
+						<li class="page-item">
+							<a class="page-link" href="?page={{dailys.previous_page_number }}">이전</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" href="#">이전</a>
+						</li>
+						{% endif %}
+						<li class="page-item">
+							<a class="page-link" href="#">{{dailys.number}}/{{dailys.paginator.num_pages}}</a>
+						</li>
+						{% if dailys.has_next %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{dailys.next_page_number }}">다음</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" href="#">다음</a>
+						</li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+		</div>
+		
+	{% endblock %}
+

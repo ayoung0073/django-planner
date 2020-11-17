@@ -1,0 +1,16 @@
+
+{% block content %}
+
+<br>
+<div class="container">
+    <h3>JOIN</h3>
+    <hr>
+    <br><br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-dark" value="회원가입"/>
+    </form>
+</div>
+
+{% endblock %}

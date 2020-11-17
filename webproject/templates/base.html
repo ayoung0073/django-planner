@@ -1,0 +1,27 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/study_diary.css' %}" type="text/css">
+    <script type="text/javascript" src="{% static 'js/jquery-3.5.1.js' %}"></script>
+</head>
+<body>
+    <section id="contents"  align="center">
+        <h2>{{ request.session.user }}님의 플래너</h2>
+    </section>
+        <div id="banner_menus">
+        <hr>
+        <ul align="center">
+            <li  style="display:inline-block"class="banner_menu"><a href="{% url 'daily' %}">일일계획표</a></li>
+            <li  style="display:inline-block"class="banner_menu"><a href="{% url 'monthly' %}">주간계획표</a></li>
+            <li  style="display:inline-block"class="banner_menu"><a href="{% url 'monthly' %}">월간계획표</a></li>
+            <li  style="display:inline-block"class="banner_menu"><a href="{% url 'diary' %}">일기장</a></li>
+            <li  style="display:inline-block"class="banner_menu"><a href="{% url 'chart' %}">활동분석</a></li>
+        </ul>
+        <hr>
+                <div class="search" align="right"><b>검색: </b><input type="text" > <input type="submit" class="searchBT" value="찾기"></div>
+    </div>
+    
+    {% block content %}
+    
+    {% endblock %}
+</body>

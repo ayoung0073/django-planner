@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 align="center">{{ date }}</h2>
+    <form align="center" method="post">
+    {% csrf_token %}
+        <table align="center" border="1" >
+            <tr class="daily_head">
+                <td width="50">NO</td>
+                <td width="180">할 일</td>
+                <td>카테고리</td>
+                <td>체크</td>
+            </tr>
+            {% for daily in dailys %}
+            <input type="text" name="id" value="{{ daily.id }}" hidden>
+            <input type="text" name="date" value="{{ daily.date }}" hidden>
+            <tr>
+                {% if daily.content != null %} <!-- 내용이 있을 경우-->
+                    <td align="center">{{ forloop.counter }}</td>
+                    <td><input type="text" name="content" value="{{ daily.content }}"></td>
+                    <td class="daily_category">
+                    {% if daily.category != null %} <!-- 내용이 있을 경우-->
+                        <input type="text" name="category"  value="{{ daily.category }}" style="width:60px">
+                    {% else %}
+                        <select name="category" class="category" >
+                            <option value=""  selected></option>
+                            <option value="웹">웹</option>
+                            <option value="앱">앱</option>
+                            <option value="머신러닝">머신러닝</option>
+                            <option value="보안">보안</option>
+                            <option value="코딩">코딩</option>
+                            <option value="학교">학교</option>
+                            <option value="여가">여가</option>
+                            <option value="알바">알바</option>
+                            <option value="카페">카페</option>
+                            <option value="대외활동">대외활동</option>
+                        </select>
+                    {% endif %}
+                    </td>
+                    <td>
+                    {% if daily.check == 2 %}
+                        O<input type="checkbox" name="check" value="2" checked>
+                        ▲<input type="checkbox" name="check" value="1">
+                        X<input type="checkbox" name="check" value="0">
+                    {% elif daily.check == 1 %}
+                        O<input type="checkbox" name="check" value="2">
+                        ▲<input type="checkbox" name="check" value="1" checked>
+                        X<input type="checkbox" name="check" value="0">
+                    {% elif daily.check == 0 %}
+                        O<input type="checkbox" name="check" value="2" >
+                        ▲<input type="checkbox" name="check" value="1">
+                        {% if daily.category != null %} <!-- 내용이 있을 경우-->
+                            X<input type="checkbox" name="check" value="0" checked>
+                        {% else %}
+                            X<input type="checkbox" name="check" value="0">
+                                <input type="checkbox" name="check" value="0" hidden="" checked>
+                        {% endif %}
+                    {% endif %}
+                    </td> 
+                {% else %}
+                    <td align="center">{{ forloop.counter }}</td>
+                    <td><input type="text" name="content"></td>
+                    <td>
+                        <select name="category">
+                            <option value="" selected></option>
+                            <option value="웹">웹</option>
+                            <option value="앱">앱</option>
+                            <option value="보안">보안</option>
+                            <option value="코딩">코딩</option>
+                            <option value="학교">학교</option>
+                            <option value="대외활동">대외활동</option>
+                            <option value="여가">여가</option>
+                            <option value="카페">카페</option>
+                            <option value="알바">알바</option>
+                        </select>
+                    </td>
+                    <td>
+                            O<input type="checkbox" name="check" value="2">
+                            ▲<input type="checkbox" name="check" value="1">
+                            X<input type="checkbox" name="check" value="0" checked>
+                    </td>
+                {% endif %} 
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <button>수정</button>
+    </form>
+{% endblock %}

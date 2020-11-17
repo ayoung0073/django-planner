@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	{% load static %}
+	<head>
+		<meta charset="UTF-8">
+		<title>home</title>
+		<link rel="stylesheet" href="{% static 'css/study_diary.css' %}">
+	    <script type="text/javascript" src="{% static 'js/jquery-3.5.1.js' %}"></script>
+	</head>
+	<body id="index_body"  class="container">
+			{% if 'user' in request.session %}
+				<h4 align="center">{{ request.session.user }}님 환영합니다 !</h4>
+				<a href="{% url 'logout' %}">로그아웃</a>
+			{% else %}
+				<h4 align="center"><a href="{% url 'login' %}">로그인하기</a></h4>
+			{% endif %}
+
+			<ul id="main_chart" align="center">
+				<li><a href="{% url 'daily' %}">일간 계획표</a></li>
+				<li><a href="">주간 계획표</a></li>
+				<li><a href="{% url 'monthly' %}">월간 계획표</a></li>
+				<hr color="rosybrown" width="220px">
+				<li><a href="{% url 'diary' %}">일기장</a></li>
+				<li><a href="{% url 'chart' %}">활동 차트</a></li>
+            </ul>
+    </body>
+</html>
