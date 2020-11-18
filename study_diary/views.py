@@ -149,15 +149,12 @@ def daily_one(request, daily_date):
 def monthly(request):
     getUser = User.objects.get(id = request.session.get('user'))
     months_all = Monthly.objects.filter(writer = getUser)
-    print("설마 여기?")
     return render(request, 'monthly.html',{'data':months_all})
     
 
 def monthly_add(request):
     user = User.objects.get(id = request.session.get('user'))
-    print("여까지옴?")
     if request.method == 'POST':
-        print("옴?")
         Monthly(
             date = request.POST['date'],
             content = request.POST['content'],
@@ -254,11 +251,12 @@ def chart(request):
                         .filter(~Q(category= None))\
                         .filter(Q(check=2))\
                         .annotate(count=Count('category'))\
+                        .order_by('-count') #위의 count로 내림차순
 
     # NULL이 아닌 category 수 세기
     count_all = Daily.objects.filter(~Q(category= None)).count()
     print(dailys)
-    chart = {}
+    chart = {} # dict
     for daily in dailys:
         print(daily)
         chart[daily['category']] = daily['count']

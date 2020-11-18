@@ -47,6 +47,10 @@ a{
 	margin-left: 100px;
 }
 
+.daily_content{
+	margin-left: 5px;
+}
+
 .daily_table{
 	margin-left:20px;
 	display:block;
