@@ -2,68 +2,137 @@
 	{% load mathfilters %}
 	{% block content %}
 		<br>
-		{% if diarys|length == 0 %}
+		<div><button onclick="check(1);">내 일기</button><button onclick="check(2);">다른사람 일기</button></div>
+		{% if diarys_me|length == 0 %}
 		<div align="center">
 			<h3>아직 작성한 일기가 없습니다!</h3>
 			<a href="{% url 'diary_write' %}">일기작성 하러 가기</a>
 		</div>
-		{% else %}
-		<div align="center">
-			<a href="{% url 'diary_write' %}">일기작성 하러 가기</a>
-		</div>
-		<script>
-			var no = ({{diarys.number}}-1)*15 + 1;
-		</script>
-
-		<span align="center" class="center"><h3 id="diary_title2" align="center" class="bg_lightgrey">일기목록</h3></span>
-		<table id="diary_list" align="center">
-			<tr>
-        		<th class="line" width="50" height="35">NO</th>
-        		<th class="line" width="340">제목</th>
-        		<th class="line" width="120">날짜</th>
-			</tr>
-			{% for diary in diarys %}
-        	<tr class="line">
-        		<td class="line" align="center" height="30">
-					<script>
-                        document.write(no++);
-                    </script>
-				</td> 
-        		<td  class="line" class="diary_title_align" align="left" height="25">  <a class="diary_title" href="{% url 'diary_one' diary.id %}">{{ diary.title }}</a></td>
-        		<td class="line" align="center">{{ diary.date|date:'y-m-d' }}</td>       	
-			</tr>
-			{% endfor %}
-		</table>
 		{% endif %}
-
+		<script>var check=1; //일단 1로 해서 내 일기 보이게, 클릭하면 2로 설정하기</script>
+		<script>
+			function check(i){
+				if(i==1) {
+					document.all.diarys_me.style.display="";
+					document.all.diarys_others.style.display="none";
+				}
+				else if(i==2) {
+					document.all.diarys_others.style.display="";
+					document.all.diarys_me.style.display="none";
+				}
+			}
+		</script>
 		
-		<div class="paginateon-row" align="center">
-			<div class="pagination-col">
-				<nav>
-					<ul class="pagination-ul">
-						{% if diarys.has_previous %}                         
-						<li class="page-item">
-							<a class="page-link" href="?page={{diarys.previous_page_number }}">이전</a>
-						</li>
-						{% else %}
-						<li class="page-item disabled">
-							<a class="page-link" href="#">이전</a>
-						</li>
-						{% endif %}
-						<li class="page-item margin" >
-							<a class="page-link" href="#">{{diarys.number}}/{{diarys.paginator.num_pages}}</a>
-						</li>
-						{% if diarys.has_next %}
-						<li class="page-item">
-							<a class="page-link" href="?page={{diarys.next_page_number }}">다음</a>
-						</li>
-						{% else %}
-						<li class="page-item disabled">
-							<a class="page-link" href="#">다음</a>
-						</li>
-						{% endif %}
-					</ul>
-				</nav>
+		<div id="diarys_me">
+			<script>
+				var no = ({{diarys_me.number}}-1)*15 + 1;
+			</script>
+
+			<span align="center" class="center"><h3 id="diary_title2" align="center" class="bg_lightgrey">일기목록</h3></span>
+			<table id="diary_list" align="center">
+				<tr>
+					<th class="line" width="50" height="35">NO</th>
+					<th class="line" width="340">제목</th>
+					<th class="line" width="120">날짜</th>
+				</tr>
+				{% for diary in diarys_me %}
+				<tr class="line">
+					<td class="line" align="center" height="30">
+						<script>
+							document.write(no++);
+						</script>
+					</td> 
+					<td  class="line" class="diary_title_align" align="left" height="25">  <a class="diary_title" href="{% url 'diary_one' diary.id %}">{{ diary.title }}</a></td>
+					<td class="line" align="center">{{ diary.date|date:'y-m-d' }}</td>       	
+				</tr>
+				{% endfor %}
+			</table>
+
+			
+			<div class="paginateon-row" align="center">
+				<div class="pagination-col">
+					<nav>
+						<ul class="pagination-ul">
+							{% if diarys_me.has_previous %}                         
+							<li class="page-item">
+								<a class="page-link" href="?page={{diarys_me.previous_page_number }}">이전</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link" href="#">이전</a>
+							</li>
+							{% endif %}
+							<li class="page-item margin" >
+								<a class="page-link" href="#">{{diarys_me.number}}/{{diarys_me.paginator.num_pages}}</a>
+							</li>
+							{% if diarys_me.has_next %}
+							<li class="page-item">
+								<a class="page-link" href="?page={{diarys_me.next_page_number }}">다음</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link" href="#">다음</a>
+							</li>
+							{% endif %}
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+		<div id="diarys_others" style="DISPLAY: none">
+			<script>
+				var no = ({{diarys_others.number}}-1)*15 + 1;
+			</script>
+
+			<span align="center" class="center"><h3 id="diary_title2" align="center" class="bg_lightgrey">일기목록</h3></span>
+			<table id="diary_list" align="center">
+				<tr>
+					<th class="line" width="50" height="35">NO</th>
+					<th class="line" width="340">제목</th>
+					<th class="line" width="120">날짜</th>
+				</tr>
+				{% for diary in diarys_others %}
+				<tr class="line">
+					<td class="line" align="center" height="30">
+						<script>
+							document.write(no++);
+						</script>
+					</td> 
+					<td  class="line" class="diary_title_align" align="left" height="25">  <a class="diary_title" href="{% url 'diary_one' diary.id %}">{{ diary.title }}</a></td>
+					<td class="line" align="center">{{ diary.date|date:'y-m-d' }}</td>       	
+				</tr>
+				{% endfor %}
+			</table>
+			
+			<div class="paginateon-row" align="center">
+				<div class="pagination-col">
+					<nav>
+						<ul class="pagination-ul">
+							{% if diarys_others.has_previous %}                         
+							<li class="page-item">
+								<a class="page-link" href="?page={{diarys_others.previous_page_number }}">이전</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link" href="#">이전</a>
+							</li>
+							{% endif %}
+							<li class="page-item margin" >
+								<a class="page-link" href="#">{{diarys_others.number}}/{{diarys_others.paginator.num_pages}}</a>
+							</li>
+							{% if diarys_others.has_next %}
+							<li class="page-item">
+								<a class="page-link" href="?page={{diarys_others.next_page_number }}">다음</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link" href="#">다음</a>
+							</li>
+							{% endif %}
+						</ul>
+					</nav>
+				</div>
 			</div>
 		</div>
 	{% endblock %}

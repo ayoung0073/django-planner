@@ -34,12 +34,16 @@ class CreateDiary(forms.ModelForm):
     class Meta:
         model = Diary
  
-        fields = ['date', 'title', 'content'] 
+        fields = ['date', 'title', 'is_public', 'content'] 
         # fields = '__all__' : 모든 필드를 가져오겠다
 
 # 블로그 생성
 # 장고에서는 Meta 클래스는 내부 클래스로 활용, 기본 필드의 값을 재정의할 때 사용
 # Blog 클래스로부터 모델을 가져오고 그 중 'title', 'author', 'body' 가져오는 것
+
+        CHOICES=((2,'공개'),
+                 (1, '친구만'),
+                 (0,'나만'))
 
         widgets = {
                     'date': forms.DateInput(
@@ -47,6 +51,9 @@ class CreateDiary(forms.ModelForm):
                     ),
                     'title': forms.TextInput(
                         attrs={'class': 'form-control', 'style': 'width: 55%;height:25px', 'placeholder': '제목을 입력하세요.'}
+                    ),
+                    'is_public': forms.RadioSelect(
+                        attrs={'label':'private'},choices=CHOICES
                     ),
                     # 'author': forms.Select(
                     #     attrs={'class': 'custom-select'},

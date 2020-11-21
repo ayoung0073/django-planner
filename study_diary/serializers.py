@@ -7,4 +7,4 @@ from rest_framework import serializers
 class DiarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Diary
-        fields = ('date', 'writer', 'title', 'content')
+        fields = ('date', 'writer', 'title', 'content', 'is_public')

@@ -123,6 +123,7 @@ def daily(request):
     return render(request, 'daily.html', {'dailys':dailys})
 
 
+
 def daily_one(request, daily_date):
     user = User.objects.get(id = request.session.get('user'))
     if request.method == 'POST':
@@ -166,12 +167,19 @@ def monthly_add(request):
 
 def diary(request):
     getUser = User.objects.get(id = request.session.get('user'))
-    diarys_all = Diary.objects.filter(writer = getUser).order_by('-date')
+    diarys_me = Diary.objects.filter(writer = getUser).order_by('-date')
+    diarys_others = Diary.objects.filter(is_public = 2).order_by('-date')
+
     page = int(request.GET.get('page', 1)) #없으면 1로 지정
-    paginator = Paginator(diarys_all, 15) #한 페이지 당 몇개 씩 보여줄 지 지정 
-    diarys = paginator.get_page(page)
+    paginator = Paginator(diarys_me, 15) #한 페이지 당 몇개 씩 보여줄 지 지정 
+    paginator2 = Paginator(diarys_others, 15) 
+
+    diarys_me = paginator.get_page(page)
+    diarys_others = paginator2.get_page(page)
     num = 15
-    return render(request, 'diary.html', {'diarys':diarys, 'num' :num})
+
+    
+    return render(request, 'diary.html', {'diarys_me':diarys_me, 'diarys_others':diarys_others,'num' :num})
 
 
 def diary_one(request, diary_id):

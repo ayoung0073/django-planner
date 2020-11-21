@@ -115,7 +115,7 @@ a{
 .diary1{
 	float:left;
 	width:50%;
-	padding-left:80px;
+	padding-left:25%;
 	
 }
 
@@ -127,6 +127,11 @@ a{
 	margin-right:40px;
 	border-left: double lightgray;
 	margin-left: 0px;
+}
+
+#diary_writer{
+	font-size: 40px;
+	font-weight: bold;
 }
 
 #piechart{
