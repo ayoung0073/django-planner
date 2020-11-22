@@ -108,6 +108,10 @@ a{
 	border: 1px solid thin lightslategray;
 }
 
+.diary_table_id{ 
+	/* 아이디는 백그라운드 만들기 */
+	background-color: lightgray;
+}
 .diary_title_align{
 	margin-left: 100px;
 }

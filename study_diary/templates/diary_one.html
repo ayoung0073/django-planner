@@ -3,16 +3,17 @@
 
 		<br>
 		<div  class="diary1" >
-	          <h2 id="diary_title" class="diary" ><b> {{ diary_one.date|date:"yy-m-d" }} 일기</b></h2>
-			  <a href="{% url 'diary_one_update' diary_one.id %}" id="diary_update_button"><button>수정</button></a>
-			  <a href="{% url 'diary_one_delete' diary_one.id %}" id="diary_delete_button"><button>삭제</button></a>
-			  <a href="{% url 'diary' %}" id="diary_list_button" style="float: right;"><button>일기목록</button></a><br>
+			<h2 id="diary_title" class="diary" ><b> {{ diary_one.date|date:"yy-m-d" }} 일기</b></h2>
+			{% if request.session.user == diary_one.writer.id %}
+				<a href="{% url 'diary_one_update' diary_one.id %}" id="diary_update_button"><button>수정</button></a>
+				<a href="{% url 'diary_one_delete' diary_one.id %}" id="diary_delete_button"><button>삭제</button></a>
+			{% endif %}
+			<a href="{% url 'diary' %}" id="diary_list_button" style="float: right;"><button>일기목록</button></a><br>
+			<h3>제목: {{ diary_one.title }}</h3>
+			<span id='diary_write'>{% if request.session.user != diary_one.writer.id %} 작성자: {{diary_one.writer.id}} {% endif %}</span>
+			<hr><br>
 
-	          <h3>제목: {{ diary_one.title }}</h3>
-			  <span id='diary_write'>{% if request.session.user != diary_one.writer.id %} 작성자: {{diary_one.writer.id}} {% endif %}</span>
-			  <hr><br>
-
-	          <div id="selected_content">{{ diary_one.content|safe }}</div>
+			<div id="selected_content">{{ diary_one.content|safe }}</div>
 	   </div>
 	   <!-- <div class="diary2">
 		<span><h3 id="diary_title2">일기목록</h3></span>

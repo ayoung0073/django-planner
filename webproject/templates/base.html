@@ -8,16 +8,17 @@
     <section id="contents"  align="center">
         <h2>{{ request.session.user }}님의 플래너</h2>
     </section>
-        <div id="banner_menus">
+    <div id="banner_menus">
         <hr>
         <ul align="center">
             <li  style="display:inline-block"class="banner_menu"><a href="{% url 'daily' %}"> Daily Planner </a></li>
             <li  style="display:inline-block"class="banner_menu"><a href="{% url 'monthly' %}"> Calendar </a></li>
             <li  style="display:inline-block"class="banner_menu"><a href="{% url 'diary' %}"> Diary </a></li>
             <li  style="display:inline-block"class="banner_menu"><a href="{% url 'chart' %}"> Chart </a></li>
+            <button style='float:right; margin-right:10px;' onclick="location.href='{% url 'logout' %}'">logout</button>
         </ul>
         <hr>
-                <div class="search" align="right"><b>검색: </b><input type="text" > <input type="submit" class="searchBT" value="찾기"></div>
+        <div class="search" align="right"><b>검색: </b><input type="text" > <input type="submit" class="searchBT" value="찾기"></div>
     </div>
     
     {% block content %}

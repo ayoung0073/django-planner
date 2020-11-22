@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Diary, Daily, Monthly
+from .models import User, Diary, Daily, Monthly, Neighbor
 from .forms import CreateDiary, CreateUser
 import requests
 import json
@@ -169,17 +169,25 @@ def diary(request):
     getUser = User.objects.get(id = request.session.get('user'))
     diarys_me = Diary.objects.filter(writer = getUser).order_by('-date')
     diarys_others = Diary.objects.filter(is_public = 2).order_by('-date')
+    # 네이버 데베에 팔로잉 이름을 먼저 가져오고, Diary에 필터?
+    followings = Neighbor.objects.filter(following = getUser)
+    diarys_followings = [] # 유저가 팔로잉하고 있는 팔로워들 (일기 볼 수 O)
+    for following_obj in followings: 
+        diarys_followings += Diary.objects.filter(writer = following_obj.followed).order_by('-date')
+    #diarys_following = Diary.objects.filter()
 
     page = int(request.GET.get('page', 1)) #없으면 1로 지정
-    paginator = Paginator(diarys_me, 15) #한 페이지 당 몇개 씩 보여줄 지 지정 
-    paginator2 = Paginator(diarys_others, 15) 
+    paginator_me = Paginator(diarys_me, 15) #한 페이지 당 몇개 씩 보여줄 지 지정 
+    paginator_others = Paginator(diarys_others, 15) 
+    paginator_followings = Paginator(diarys_followings, 15) 
 
-    diarys_me = paginator.get_page(page)
-    diarys_others = paginator2.get_page(page)
+
+    diarys_me = paginator_me.get_page(page)
+    diarys_others = paginator_others.get_page(page)
+    diarys_followings = paginator_followings.get_page(page)
     num = 15
-
     
-    return render(request, 'diary.html', {'diarys_me':diarys_me, 'diarys_others':diarys_others,'num' :num})
+    return render(request, 'diary.html', {'diarys_me':diarys_me, 'diarys_others':diarys_others,'diarys_followings':diarys_followings,'num' :num})
 
 
 def diary_one(request, diary_id):

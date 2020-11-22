@@ -50,10 +50,10 @@ class CreateDiary(forms.ModelForm):
                         attrs={'type':'date'}
                     ),
                     'title': forms.TextInput(
-                        attrs={'class': 'form-control', 'style': 'width: 55%;height:25px', 'placeholder': '제목을 입력하세요.'}
+                        attrs={'class': 'form-control', 'style': 'width: 55%; height:30px', 'placeholder': '제목을 입력하세요.'}
                     ),
                     'is_public': forms.RadioSelect(
-                        attrs={'label':'private'},choices=CHOICES
+                        attrs={'label':'private', 'style':'list-style-type: none'}, choices=CHOICES
                     ),
                     # 'author': forms.Select(
                     #     attrs={'class': 'custom-select'},
