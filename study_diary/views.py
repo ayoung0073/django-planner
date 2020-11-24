@@ -215,7 +215,7 @@ def diary_one_update(request, diary_id):
     else:
         diary = Diary.objects.get(id = diary_id)
         if diary.writer == user:
-            form = CreateDiary(instance = diary)
+            form = CreateDiary(instance = diary) #instance로 내용 유지.
             context = {
                 'form':form,
                 'state':'일기 수정'

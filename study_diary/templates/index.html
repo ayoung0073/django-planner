@@ -15,12 +15,11 @@
 				<h4 align="center"><a href="{% url 'login' %}">로그인하기</a></h4>
 			{% endif %}
 
-			<ul id="main_chart" align="center">
-				<li><a href="{% url 'daily' %}">일간 계획표 </a></li>
-				<li><a href="{% url 'monthly' %}">월간 계획표 </a></li>
-				<hr color="rosybrown" width="220px">
-				<li><a href="{% url 'diary' %}">일기장 </a></li>
-				<li><a href="{% url 'chart' %}">활동 차트 </a></li>
+			<ul id="main_chart" align="center" id="index_menu">
+				<li style="display:inline-block" class="index_menu_item"><a href="{% url 'daily' %}">Daily </a></li>
+				<li style="display:inline-block" class="index_menu_item"><a href="{% url 'monthly' %}">Monthly </a></li><br>
+				<li style="display:inline-block" class="index_menu_item"><a href="{% url 'diary' %}">Diary </a></li>
+				<li style="display:inline-block" class="index_menu_item"><a href="{% url 'chart' %}">Chart </a></li>
             </ul>
     </body>
 </html>

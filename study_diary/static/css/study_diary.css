@@ -4,6 +4,19 @@
 	width:100%;
 	text-align: center;
 	vertical-align: middle;
+	margin-top: 100px;
+}
+
+.index_menu_item{
+	margin-left: 50px;
+	margin-top: 50px;
+	border: solid 1px;
+	padding-left: 50px;
+	padding-right:50px;
+	padding-top: 60px;
+	padding-bottom: 60px;
+
+
 }
 
 #main_chart{

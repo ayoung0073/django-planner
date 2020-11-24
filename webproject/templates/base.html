@@ -6,7 +6,7 @@
 </head>
 <body>
     <section id="contents"  align="center">
-        <h2>{{ request.session.user }}님의 플래너</h2>
+        <a href="{% url 'index' %}"><h2>{{ request.session.user }}님의 플래너</h2></a>
     </section>
     <div id="banner_menus">
         <hr>
